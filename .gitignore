@@ -1,0 +1,6 @@
+.env
+backend/.env
+backend/alembic/.env
+__pycache__/
+*.pyc
+venv/
