@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from routers import auth, meetings, transcripts, insights
+from routers import auth, meetings, transcripts, insights, websocket
+
 
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
@@ -20,6 +21,7 @@ app.include_router(auth.router)
 app.include_router(meetings.router)
 app.include_router(transcripts.router)
 app.include_router(insights.router)
+app.include_router(websocket.router)
 
 @app.get('/')
 def root():

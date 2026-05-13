@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+content = open(r"C:\Users\sujith srirangam\meeting-assistant\frontend\src\pages\MeetingRoom.jsx", "w", encoding="utf-8")
+content.write("""import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadAudio, analyzeTranscript, getTranscript, endMeeting } from "../services/api";
 import toast, { Toaster } from "react-hot-toast";
@@ -149,3 +150,6 @@ export default function MeetingRoom() {
     </div>
   );
 }
+""")
+content.close()
+print("Done!")

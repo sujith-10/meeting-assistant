@@ -122,3 +122,21 @@ def get_insights(
         'topics': [i.content for i in insights if i.type == 'topic'],
         'action_items': [{'description': a.description, 'assignee': a.assignee_email, 'completed': a.completed} for a in action_items]
     }
+
+from pydantic import BaseModel
+
+class TranscriptLine(BaseModel):
+    text: str
+    speaker_label: str = "A"
+
+@router.post("/{meeting_id}/add")
+def add_transcript_line(meeting_id: str, line: TranscriptLine, db: Session = Depends(get_db)):
+    t = Transcript(
+        meeting_id=meeting_id,
+        speaker_label=line.speaker_label,
+        text=line.text,
+        timestamp_start=0.0
+    )
+    db.add(t)
+    db.commit()
+    return {"message": "added"}
