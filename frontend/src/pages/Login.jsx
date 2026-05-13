@@ -38,7 +38,7 @@ export default function Login() {
       <Toaster />
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-indigo-600">🎙️ MeetingAI</h1>
+          <h1 className="text-3xl font-bold text-indigo-600">🎙️ MeetMind</h1>
           <p className="text-gray-500 mt-2">Enterprise Meeting Intelligence Platform</p>
         </div>
 

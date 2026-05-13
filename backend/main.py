@@ -7,7 +7,7 @@ from routers import auth, meetings, transcripts, insights, websocket, calendar
 
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
-app = FastAPI(title='Meeting Assistant API', version='1.0.0')
+app = FastAPI(title='MeetMind API', version='1.0.0')
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +26,7 @@ app.include_router(calendar.router)
 
 @app.get('/')
 def root():
-    return {'status': 'Meeting Assistant API is running'}
+    return {'status': 'MeetMind API is running'}
 
 @app.get('/health')
 def health():

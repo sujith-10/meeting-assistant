@@ -18,7 +18,7 @@ def send_meeting_summary(to_email: str, meeting_title: str, insights: dict):
     html_content = f"""
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #4f46e5; padding: 24px; border-radius: 8px 8px 0 0;">
-            <h1 style="color: white; margin: 0; font-size: 22px;">🎙️ MeetingAI Summary</h1>
+            <h1 style="color: white; margin: 0; font-size: 22px;">🧠 MeetMind Summary</h1>
             <p style="color: #c7d2fe; margin: 4px 0 0;">{meeting_title}</p>
         </div>
         

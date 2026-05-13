@@ -1,4 +1,4 @@
-# 🎙️ MeetingAI — Enterprise Meeting Intelligence Platform
+# 🎙️ MeetMind — Enterprise Meeting Intelligence Platform
 
 A full-stack AI-powered meeting assistant that transcribes meetings, identifies speakers, extracts insights, and sends automated summaries.
 
