@@ -1,54 +1,49 @@
 import os
+import requests
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
+load_dotenv()
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-CLIENT_CONFIG = {
-    "web": {
-        "client_id": os.getenv("GOOGLE_CLIENT_ID"),
-        "client_secret": os.getenv("GOOGLE_CLIENT_SECRET"),
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "redirect_uris": ["http://localhost:8000/calendar/callback"]
-    }
-}
-
 def get_auth_url():
-    flow = Flow.from_client_config(
-        CLIENT_CONFIG,
-        scopes=SCOPES,
-        redirect_uri="http://localhost:8000/calendar/callback"
+    client_id = os.getenv("GOOGLE_CLIENT_ID")
+    redirect_uri = "http://localhost:8000/calendar/callback"
+    
+    auth_url = (
+        "https://accounts.google.com/o/oauth2/v2/auth"
+        f"?client_id={client_id}"
+        f"&redirect_uri={redirect_uri}"
+        "&response_type=code"
+        "&scope=https://www.googleapis.com/auth/calendar.readonly"
+        "&access_type=offline"
+        "&prompt=consent"
     )
-    auth_url, state = flow.authorization_url(
-        access_type='offline',
-        include_granted_scopes='true',
-        prompt='consent'
-    )
-    return auth_url, state
+    return auth_url, "state"
 
 def get_credentials_from_code(code: str):
-    flow = Flow.from_client_config(
-        CLIENT_CONFIG,
-        scopes=SCOPES,
-        redirect_uri="http://localhost:8000/calendar/callback"
-    )
-    flow.fetch_token(
-        code=code,
-        include_client_id=True
-    )
-    credentials = flow.credentials
+    data = {
+        "code": code,
+        "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+        "client_secret": os.getenv("GOOGLE_CLIENT_SECRET"),
+        "redirect_uri": "http://localhost:8000/calendar/callback",
+        "grant_type": "authorization_code"
+    }
+    response = requests.post("https://oauth2.googleapis.com/token", data=data)
+    tokens = response.json()
+    
+    if "error" in tokens:
+        raise Exception(tokens.get("error_description", tokens["error"]))
+    
     return {
-        "token": credentials.token,
-        "refresh_token": credentials.refresh_token,
-        "token_uri": credentials.token_uri,
-        "client_id": credentials.client_id,
-        "client_secret": credentials.client_secret,
-        "scopes": list(credentials.scopes) if credentials.scopes else []
+        "token": tokens["access_token"],
+        "refresh_token": tokens.get("refresh_token"),
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+        "client_secret": os.getenv("GOOGLE_CLIENT_SECRET"),
+        "scopes": SCOPES
     }
 
 def get_upcoming_meetings(credentials_dict: dict):
