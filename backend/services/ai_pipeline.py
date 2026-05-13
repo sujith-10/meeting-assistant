@@ -8,8 +8,10 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def extract_insights(transcript_text: str) -> dict:
-    prompt = f"""
-You are an AI meeting analyst. Analyze this meeting transcript and extract structured insights.
+    # Truncate to avoid rate limits
+    transcript_text = transcript_text[:3000]
+    
+    prompt = f""" are an AI meeting analyst. Analyze this meeting transcript and extract structured insights.
 
 Transcript:
 {transcript_text}

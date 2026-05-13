@@ -67,3 +67,14 @@ def get_insights(meeting_id: str, db: Session = Depends(get_db), current_user: U
         "insights": [{"type": i.type, "content": i.content} for i in insights],
         "action_items": [{"description": a.description, "assignee": a.assignee_email, "completed": a.completed} for a in action_items]
     }
+
+@router.post("/{meeting_id}/extract")
+def extract_meeting_insights(
+    meeting_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Clear existing insights to avoid duplicates
+    db.query(Insight).filter(Insight.meeting_id == meeting_id).delete()
+    db.query(ActionItem).filter(ActionItem.meeting_id == meeting_id).delete()
+    db.commit()
