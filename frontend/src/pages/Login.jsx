@@ -14,24 +14,31 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      if (isLogin) {
-        const res = await login(email, password);
-        loginUser(res.data.access_token);
-        toast.success('Welcome back!');
-        navigate('/dashboard');
-      } else {
-        await register(name, email, password);
-        toast.success('Account created! Please login.');
-        setIsLogin(true);
+  setLoading(true);
+  try {
+    if (isLogin) {
+      let res;
+      try {
+        res = await login(email, password);
+      } catch (err) {
+        // Retry once if first attempt fails (Render cold start)
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        res = await login(email, password);
       }
-    } catch (err) {
-      toast.error(err.response?.data?.detail || 'Something went wrong');
-    } finally {
-      setLoading(false);
+      loginUser(res.data.access_token);
+      toast.success('Welcome back!');
+      navigate('/dashboard');
+    } else {
+      await register(name, email, password);
+      toast.success('Account created! Please login.');
+      setIsLogin(true);
     }
-  };
+  } catch (err) {
+    toast.error(err.response?.data?.detail || 'Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
