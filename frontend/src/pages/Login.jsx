@@ -26,7 +26,7 @@ export default function Login() {
         res = await login(email, password);
       }
       loginUser(res.data.access_token);
-      toast.success('Welcome back!', { duration: 2000 });
+      toast.success('Welcome back!', { duration: 20 });
       navigate('/dashboard');
     } else {
       await register(name, email, password);
