@@ -63,14 +63,11 @@ export default function Login() {
         {/* Branding */}
         <div className="flex flex-col items-center text-center gap-2">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-[#0070f3] rounded-lg flex items-center justify-center shadow-sm">
-              <span
-                className="material-symbols-outlined text-white"
-                style={{ fontVariationSettings: "'FILL' 1", fontSize: '22px' }}
-              >
-                graphic_eq
-              </span>
-            </div>
+           <div className="w-10 h-10 bg-[#0070f3] rounded-lg flex items-center justify-center shadow-sm">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+    <path d="M4 14h2v-4H4v4zm3 4h2V6H7v12zm3-8h2v-2h-2v2zm0 4h2v-2h-2v2zm3-1h2v-6h-2v6zm3 3h2V8h-2v8z"/>
+  </svg>
+</div>
             <h1
               className="text-2xl font-semibold text-[#191c1e] tracking-tight"
               style={{ fontFamily: 'Geist, sans-serif' }}
