@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getActionItems, updateActionItem } from '../services/api';
+import { getAllActionItems, completeActionItem } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -9,7 +9,7 @@ export default function ActionItems() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
-  const [search, setSearch] = useState('');
+  const data = await getAllActionItems();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function ActionItems() {
     const updated = { ...item, completed: !item.completed };
     setActionItems(prev => prev.map(i => i.id === item.id ? updated : i));
     try {
-      await updateActionItem(item.id, { completed: updated.completed });
+      await completeActionItem(item.id);
     } catch (err) {
       setActionItems(prev => prev.map(i => i.id === item.id ? item : i));
       toast.error('Failed to update item');
