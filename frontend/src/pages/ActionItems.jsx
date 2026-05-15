@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllActionItems, completeActionItem } from '../services/api';
+import { getMeetings, getInsights } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -19,26 +19,29 @@ export default function ActionItems() {
   }, []);
 
   const fetchActionItems = async () => {
-    try {
-      const data = await getActionItems();
-      setActionItems(data);
-    } catch (err) {
-      toast.error('Failed to load action items');
-    } finally {
-      setLoading(false);
+  try {
+    const meetingsData = await getMeetings();
+    const allItems = [];
+    for (const meeting of meetingsData.data) {
+      try {
+        const insights = await getInsights(meeting.id);
+        const items = insights.data?.action_items || [];
+        items.forEach(item => allItems.push({
+          id: `${meeting.id}-${Math.random()}`,
+          description: item,
+          meeting_title: meeting.title,
+          completed: false,
+          priority: 'medium'
+        }));
+      } catch (e) {}
     }
-  };
-
-  const toggleComplete = async (item) => {
-    const updated = { ...item, completed: !item.completed };
-    setActionItems(prev => prev.map(i => i.id === item.id ? updated : i));
-    try {
-      await completeActionItem(item.id);
-    } catch (err) {
-      setActionItems(prev => prev.map(i => i.id === item.id ? item : i));
-      toast.error('Failed to update item');
-    }
-  };
+    setActionItems(allItems);
+  } catch (err) {
+    toast.error('Failed to load action items');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleLogout = () => {
     logout();

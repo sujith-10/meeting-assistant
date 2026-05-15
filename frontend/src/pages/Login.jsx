@@ -25,9 +25,11 @@ export default function Login() {
        loginUser(res.data.access_token);
        toast.success('Welcome back!');
        navigate('/dashboard');
-     } catch (err) {
-       console.log('Login error:', err);
-       toast.error(err.response?.data?.detail || 'Invalid email or password');
+     }  catch (err) {
+  console.log('CATCH ERROR:', err.response);
+  console.log('STATUS:', err.response?.status);
+  console.log('DETAIL:', err.response?.data);
+  toast.error(err.response?.data?.detail || 'Invalid email or password');
 }
   };
 
