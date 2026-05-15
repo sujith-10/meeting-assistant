@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { login as loginApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -7,7 +8,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,14 +19,16 @@ export default function Login() {
     }
     setLoading(true);
     try {
-      await login(email, password);
-      toast.success('Welcome back!');
-      navigate('/dashboard');
-    } catch (err) {
-      toast.error(err.response?.data?.detail || 'Invalid email or password');
-    } finally {
-      setLoading(false);
-    }
+       const res = await loginApi(email, password);
+       console.log('Login response:', res);
+       console.log('Token:', res.data.access_token);
+       loginUser(res.data.access_token);
+       toast.success('Welcome back!');
+       navigate('/dashboard');
+     } catch (err) {
+       console.log('Login error:', err);
+       toast.error(err.response?.data?.detail || 'Invalid email or password');
+}
   };
 
   return (
