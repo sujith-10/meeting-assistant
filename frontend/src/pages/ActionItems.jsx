@@ -9,7 +9,6 @@ export default function ActionItems() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
-  const data = await getAllActionItems();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const navigate = useNavigate();
