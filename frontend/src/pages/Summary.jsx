@@ -14,12 +14,10 @@ export default function Summary() {
   const [completedItems, setCompletedItems] = useState({});
 
   useEffect(() => {
-    Promise.all([
-      getInsights(id),
-      getMeetingActionItems(id),
-    ]).then(([insightsRes, actionsRes]) => {
-      setInsights(insightsRes.data);
-      setActionItems(actionsRes.data || []);
+    getInsights(id)
+.then((insightsRes) => {
+  setInsights(insightsRes.data);
+  setActionItems(insightsRes.data?.action_items || []);
     }).catch(() => toast.error("Failed to load summary"))
       .finally(() => setLoading(false));
   }, [id]);
@@ -40,10 +38,10 @@ export default function Summary() {
   };
 
   const insightsList = insights?.insights || [];
-const decisions = insightsList.filter((i) => i.type === "decision") || [];
-const openQuestions = insightsList.filter((i) => i.type === "open_question") || [];
-const topics = insightsList.filter((i) => i.type === "topic") || [];
-const summary = insightsList.find((i) => i.type === "summary")?.content || "";
+  const decisions = insightsList.filter((i) => i.type === "decision") || [];
+  const openQuestions = insightsList.filter((i) => i.type === "open_question") || [];
+  const topics = insightsList.filter((i) => i.type === "topic") || [];
+  const summary = insightsList.find((i) => i.type === "summary")?.content || "";
 
   // Simulated speaking time based on transcript speakers
   const speakerColors = ["#0058c3", "#006a61", "#545f73"];
