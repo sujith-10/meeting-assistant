@@ -115,10 +115,10 @@ export default function Archive() {
             <span>Action Items</span>
           </button>
           {/* Active: Archive */}
-          <div className="flex items-center gap-4 px-6 py-3 text-[#0058c3] font-bold bg-[#d5e0f8]/30 rounded-lg">
-            <span className="material-symbols-outlined">history</span>
-            <span>Archive</span>
-          </div>
+          <button onClick={() => navigate('/analytics')} className="w-full flex items-center gap-4 px-6 py-3 text-[#414754] hover:bg-[#e6e8ea] transition-colors rounded-lg text-left">
+            <span className="material-symbols-outlined">bar_chart</span>
+             <span>Analytics</span>
+          </button>
         </nav>
 
         <div className="mt-auto px-4 pt-6 space-y-1">

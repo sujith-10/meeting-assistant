@@ -113,9 +113,9 @@ export default function ActionItems() {
             <span className="material-symbols-outlined">checklist</span>
             <span>Action Items</span>
           </div>
-          <button onClick={() => navigate('/archive')} className="w-full flex items-center gap-4 px-6 py-3 text-[#414754] hover:bg-[#e6e8ea] transition-colors rounded-lg text-left">
-            <span className="material-symbols-outlined">history</span>
-            <span>Archive</span>
+          <button onClick={() => navigate('/analytics')} className="w-full flex items-center gap-4 px-6 py-3 text-[#414754] hover:bg-[#e6e8ea] transition-colors rounded-lg text-left">
+            <span className="material-symbols-outlined">bar_chart</span>
+            <span>Analytics</span>
           </button>
         </nav>
         <div className="mt-auto px-4 pt-6 space-y-1">

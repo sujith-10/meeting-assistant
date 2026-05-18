@@ -75,9 +75,11 @@ export default function Summary() {
         <nav style={{ flex: 1, padding: "0 12px" }}>
           {[
             { icon: "📊", label: "Dashboard", action: () => navigate("/dashboard") },
-            { icon: "🎙️", label: "Live Meeting", action: () => navigate("/meeting/" + id) },
-            { icon: "📋", label: "Summary", active: true },
-            { icon: "✅", label: "Action Items", action: () => navigate("/action-items") },
+              { icon: "🎙️", label: "Live Meeting", action: () => navigate("/meeting/" + id) },
+              { icon: "📋", label: "Summary", active: true },
+              { icon: "✅", label: "Action Items", action: () => navigate("/action-items") },
+              { icon: "🗂️", label: "Archive", action: () => navigate("/archive") },
+              { icon: "📈", label: "Analytics", action: () => navigate("/analytics") },
           ].map((item) => (
             <div key={item.label} onClick={item.action} style={{
               display: "flex", alignItems: "center", gap: 12,
