@@ -7,10 +7,10 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function ActionItems() {
   const [actionItems, setActionItems] = useState([]);
   const [loading, setLoading] = useState(true);
-const [filter, setFilter] = useState('all');
-const [priorityFilter, setPriorityFilter] = useState('all');
-const [search, setSearch] = useState('');
-const [currentPage, setCurrentPage] = useState(1);const itemsPerPage = 10;
+  const [filter, setFilter] = useState('all');
+  const [priorityFilter, setPriorityFilter] = useState('all');
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);const itemsPerPage = 10;
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
@@ -27,12 +27,13 @@ const [currentPage, setCurrentPage] = useState(1);const itemsPerPage = 10;
         const insights = await getInsights(meeting.id);
         const items = insights.data?.action_items || [];
         items.forEach(item => allItems.push({
-          id: `${meeting.id}-${Math.random()}`,
-          description: item,
-          meeting_title: meeting.title,
-          completed: false,
-          priority: 'medium'
-        }));
+  id: `${meeting.id}-${Math.random()}`,
+  description: typeof item === 'string' ? item : item.task || item.description || JSON.stringify(item),
+  assignee: typeof item === 'object' ? item.assignee || '' : '',
+  meeting_title: meeting.title,
+  completed: false,
+  priority: typeof item === 'object' ? item.priority || 'medium' : 'medium'
+}));
       } catch (e) {}
     }
     setActionItems(allItems);
