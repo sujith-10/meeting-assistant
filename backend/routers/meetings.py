@@ -68,6 +68,15 @@ from models.transcript import Transcript
 from models.insight import Insight
 from models.action_item import ActionItem
 
+@router.delete("/{meeting_id}")
+def delete_meeting(meeting_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    meeting = db.query(Meeting).filter(Meeting.id == meeting_id, Meeting.host_id == current_user.id).first()
+    if not meeting:
+        raise HTTPException(status_code=404, detail="Meeting not found")
+    db.delete(meeting)
+    db.commit()
+    return {"message": "Meeting deleted successfully"}
+
 @router.post("/{meeting_id}/send-summary")
 def send_summary(meeting_id: str, emails: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     meeting = db.query(Meeting).filter(Meeting.id == meeting_id).first()
@@ -94,31 +103,3 @@ def send_summary(meeting_id: str, emails: str, db: Session = Depends(get_db), cu
 
     return {"message": "Summary email sent", "result": result}
 
-from services.email_service import send_meeting_summary
-from models.insight import Insight
-from models.action_item import ActionItem
-
-@router.post("/{meeting_id}/send-summary")
-def send_summary(meeting_id: str, emails: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    meeting = db.query(Meeting).filter(Meeting.id == meeting_id).first()
-    if not meeting:
-        raise HTTPException(status_code=404, detail="Meeting not found")
-    
-    insights_data = db.query(Insight).filter(Insight.meeting_id == meeting_id).all()
-    action_items_data = db.query(ActionItem).filter(ActionItem.meeting_id == meeting_id).all()
-    
-    insights = {
-        "decisions": [i.content for i in insights_data if i.type == "decision"],
-        "open_questions": [i.content for i in insights_data if i.type == "open_question"],
-        "topics": [i.content for i in insights_data if i.type == "topic"],
-        "summary": next((i.content for i in insights_data if i.type == "summary"), ""),
-        "action_items": [{"description": a.description, "assignee": a.assignee_email} for a in action_items_data]
-    }
-    
-    email_list = [e.strip() for e in emails.split(",")]
-    results = []
-    for email in email_list:
-        result = send_meeting_summary(email, meeting.title, insights)
-        results.append({"email": email, "result": result})
-    
-    return {"message": "Emails sent", "results": results}
