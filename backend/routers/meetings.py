@@ -103,3 +103,12 @@ def send_summary(meeting_id: str, emails: str, db: Session = Depends(get_db), cu
 
     return {"message": "Summary email sent", "result": result}
 
+from services.email_service import send_reminder_email
+
+@router.post("/{meeting_id}/remind")
+def send_reminder(meeting_id: str, email: str, task: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    meeting = db.query(Meeting).filter(Meeting.id == meeting_id).first()
+    if not meeting:
+        raise HTTPException(status_code=404, detail="Meeting not found")
+    result = send_reminder_email(email, task, meeting.title)
+    return {"message": "Reminder sent", "result": result}

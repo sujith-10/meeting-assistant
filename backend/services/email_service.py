@@ -67,3 +67,34 @@ def send_meeting_summary(to_email: str, meeting_title: str, insights: dict):
         return {"success": True, "status_code": response.status_code}
     except Exception as e:
         return {"success": False, "error": str(e)}
+    
+def send_reminder_email(to_email: str, task: str, meeting_title: str):
+    sg = sendgrid.SendGridAPIClient(api_key=os.getenv("SENDGRID_API_KEY"))
+    html_content = f"""
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: #0058c3; padding: 24px; border-radius: 8px 8px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 22px;">⏰ Action Item Reminder</h1>
+            <p style="color: #c7d2fe; margin: 4px 0 0;">From: {meeting_title}</p>
+        </div>
+        <div style="background: white; padding: 24px; border: 1px solid #e5e7eb; border-radius: 0 0 8px 8px;">
+            <h2 style="color: #1f2937; font-size: 16px;">You have a pending action item:</h2>
+            <div style="background: #d8e2ff; padding: 16px; border-radius: 8px; border-left: 4px solid #0058c3;">
+                <p style="color: #001a43; font-weight: bold; margin: 0;">{task}</p>
+            </div>
+            <p style="color: #6b7280; font-size: 13px; margin-top: 24px;">
+                This reminder was sent by MeetMind.
+            </p>
+        </div>
+    </div>
+    """
+    message = Mail(
+        from_email=os.getenv("SENDER_EMAIL", "meetingai@yourdomain.com"),
+        to_emails=to_email,
+        subject=f"Reminder: {task[:50]}...",
+        html_content=html_content
+    )
+    try:
+        response = sg.send(message)
+        return {"success": True, "status_code": response.status_code}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
