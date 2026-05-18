@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getInsights, getMeetingActionItems, sendSummary } from "../services/api";
 import toast, { Toaster } from "react-hot-toast";
 import { getInsights, getMeetingActionItems, sendSummary, sendReminder } from '../services/api';
 
