@@ -48,5 +48,6 @@ export const getMeetingActionItems = (meetingId) => api.get('/action-items/' + m
 export const completeActionItem = (id) => api.patch('/action-items/' + id + '/complete');
 export const setDueDate = (id, date) => api.patch('/action-items/' + id + '/due-date?due_date=' + date);
 export const deleteActionItem = (id) => api.delete('/action-items/' + id);
+export const deleteMeeting = (id) => api.delete('/meetings/' + id);
 
 export default api;

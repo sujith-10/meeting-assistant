@@ -1,6 +1,7 @@
+import { getMeetings, deleteMeeting } from '../services/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMeetings } from '../services/api';
+import { getMeetings, deleteMeeting } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -16,6 +17,17 @@ export default function Archive() {
   useEffect(() => {
     fetchMeetings();
   }, []);
+
+  const handleDelete = async (id) => {
+  if (!window.confirm('Are you sure you want to delete this meeting?')) return;
+  try {
+    await deleteMeeting(id);
+    setMeetings(prev => prev.filter(m => m.id !== id));
+    toast.success('Meeting deleted');
+  } catch (err) {
+    toast.error('Failed to delete meeting');
+  }
+};
 
   const fetchMeetings = async () => {
     try {
@@ -254,11 +266,17 @@ export default function Archive() {
                         View Transcript
                       </button>
                       <button
-                        onClick={() => navigate(`/summary/${meeting.id}`)}
-                        className="flex-1 md:flex-none px-6 py-2 bg-[#0058c3] text-white rounded-lg text-sm font-semibold hover:opacity-90 active:scale-95 transition-all"
-                      >
-                        Summary
-                      </button>
+  onClick={() => navigate(`/summary/${meeting.id}`)}
+  className="flex-1 md:flex-none px-6 py-2 bg-[#0058c3] text-white rounded-lg text-sm font-semibold hover:opacity-90 active:scale-95 transition-all"
+>
+  Summary
+</button>
+<button
+  onClick={() => handleDelete(meeting.id)}
+  className="flex-none px-3 py-2 bg-[#ffdad6] text-[#93000a] rounded-lg text-sm font-semibold hover:bg-[#ffb4ab] transition-colors"
+>
+  <span className="material-symbols-outlined text-base">delete</span>
+</button>
                     </div>
                   </div>
                 );
