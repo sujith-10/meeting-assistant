@@ -19,10 +19,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const loginUser = (token) => {
-    localStorage.setItem('token', token);
-    getMe().then((res) => setUser(res.data));
-  };
+  const loginUser = async (token) => {
+  setLoading(true);
+  localStorage.setItem('token', token);
+  try {
+    const res = await getMe();
+    setUser(res.data);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const logoutUser = () => {
     localStorage.removeItem('token');
