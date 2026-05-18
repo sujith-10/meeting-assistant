@@ -39,10 +39,11 @@ export default function Summary() {
     setCompletedItems((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
-  const decisions = insights?.filter((i) => i.type === "decision") || [];
-  const openQuestions = insights?.filter((i) => i.type === "open_question") || [];
-  const topics = insights?.filter((i) => i.type === "topic") || [];
-  const summary = insights?.find((i) => i.type === "summary")?.content || "";
+  const insightsList = insights?.insights || [];
+const decisions = insightsList.filter((i) => i.type === "decision") || [];
+const openQuestions = insightsList.filter((i) => i.type === "open_question") || [];
+const topics = insightsList.filter((i) => i.type === "topic") || [];
+const summary = insightsList.find((i) => i.type === "summary")?.content || "";
 
   // Simulated speaking time based on transcript speakers
   const speakerColors = ["#0058c3", "#006a61", "#545f73"];
