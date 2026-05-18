@@ -29,15 +29,15 @@ export default function Archive() {
 };
 
   const fetchMeetings = async () => {
-    try {
-      const data = await getMeetings();
-      setMeetings(data);
-    } catch (err) {
-      toast.error('Failed to load meetings');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const res = await getMeetings();
+    setMeetings(res.data);
+  } catch (err) {
+    toast.error('Failed to load meetings');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleLogout = () => {
     logout();

@@ -36,8 +36,7 @@ export default function NewMeeting() {
     setLoading(true);
     try {
       const meeting = await createMeeting({ title: title.trim() });
-      toast.success('Meeting created!');
-      navigate(`/meeting/${meeting.id}`);
+navigate(`/meeting/${meeting.data.id}`);
     } catch (err) {
       toast.error(err.response?.data?.detail || 'Failed to create meeting');
     } finally {
