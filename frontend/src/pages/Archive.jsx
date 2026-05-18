@@ -1,4 +1,3 @@
-import { getMeetings, deleteMeeting } from '../services/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMeetings, deleteMeeting } from '../services/api';
