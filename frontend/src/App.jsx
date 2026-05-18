@@ -8,6 +8,7 @@ import MeetingRoom from './pages/MeetingRoom';
 import Summary from './pages/Summary';
 import ActionItems from './pages/ActionItems';
 import Archive from './pages/Archive';
+import Analytics from './pages/Analytics';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -27,6 +28,7 @@ function AppRoutes() {
       <Route path="/summary/:id" element={<ProtectedRoute><Summary /></ProtectedRoute>} />
       <Route path="/action-items" element={<ProtectedRoute><ActionItems /></ProtectedRoute>} />
       <Route path="/archive" element={<ProtectedRoute><Archive /></ProtectedRoute>} />
+      <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
     </Routes>
   );
 }

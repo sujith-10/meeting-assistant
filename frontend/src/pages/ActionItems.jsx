@@ -95,6 +95,10 @@ export default function ActionItems() {
           <h1 className="text-2xl font-semibold text-[#191c1e]" style={{ fontFamily: 'Geist, sans-serif' }}>MeetMind</h1>
           <p className="text-sm text-[#414754]">Meeting Assistant</p>
         </div>
+        <button onClick={() => navigate('/analytics')} className="w-full flex items-center gap-4 px-6 py-3 text-[#414754] hover:bg-[#e6e8ea] transition-colors rounded-lg text-left">
+          <span className="material-symbols-outlined">bar_chart</span>
+           <span>Analytics</span>
+        </button>
         <nav className="flex-1 px-4 space-y-1">
           <button onClick={() => navigate('/dashboard')} className="w-full flex items-center gap-4 px-6 py-3 text-[#414754] hover:bg-[#e6e8ea] transition-colors rounded-lg text-left">
             <span className="material-symbols-outlined">dashboard</span>

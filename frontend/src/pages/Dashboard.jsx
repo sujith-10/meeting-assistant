@@ -60,8 +60,9 @@ export default function Dashboard() {
           {[
             { icon: '📊', label: 'Dashboard', active: true },
             { icon: '🎙️', label: 'Live Meeting', action: () => navigate('/new-meeting') },
-            { icon: '📋', label: 'Summaries', action: () => {} },
             { icon: '✅', label: 'Action Items', action: () => navigate('/action-items') },
+            { icon: '🗂️', label: 'Archive', action: () => navigate('/archive') },
+            { icon: '📈', label: 'Analytics', action: () => navigate('/analytics') },
           ].map((item) => (
             <div
               key={item.label}
