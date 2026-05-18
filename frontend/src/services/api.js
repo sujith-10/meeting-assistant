@@ -49,5 +49,6 @@ export const completeActionItem = (id) => api.patch('/action-items/' + id + '/co
 export const setDueDate = (id, date) => api.patch('/action-items/' + id + '/due-date?due_date=' + date);
 export const deleteActionItem = (id) => api.delete('/action-items/' + id);
 export const deleteMeeting = (id) => api.delete('/meetings/' + id);
+export const sendReminder = (meetingId, email, task) => api.post(`/meetings/${meetingId}/remind?email=${email}&task=${encodeURIComponent(task)}`);
 
 export default api;

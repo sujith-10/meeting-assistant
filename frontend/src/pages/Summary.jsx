@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getInsights, getMeetingActionItems, sendSummary } from "../services/api";
 import toast, { Toaster } from "react-hot-toast";
+import { getInsights, getMeetingActionItems, sendSummary, sendReminder } from '../services/api';
 
 export default function Summary() {
   const { id } = useParams();
@@ -253,6 +254,24 @@ export default function Summary() {
                                 👤 {item.assignee_email}
                               </span>
                             )}
+                            <button
+  onClick={(e) => {
+    e.stopPropagation();
+    const email = prompt('Send reminder to email:');
+    if (email) {
+      sendReminder(id, email, item.description)
+        .then(() => toast.success('Reminder sent!'))
+        .catch(() => toast.error('Failed to send reminder'));
+    }
+  }}
+  style={{
+    background: '#d8e2ff', color: '#0058c3', border: 'none',
+    padding: '4px 10px', borderRadius: 6, fontSize: 12,
+    fontWeight: 600, cursor: 'pointer'
+  }}
+>
+  ⏰ Remind
+</button>
                             {item.due_date && (
                               <span style={{ fontSize: 13, color: "#414754", display: "flex", alignItems: "center", gap: 4 }}>
                                 📅 {new Date(item.due_date).toLocaleDateString()}
